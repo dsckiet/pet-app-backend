@@ -1,0 +1,44 @@
+<html>
+    <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    </head>
+
+    {{sender}}
+    {{receiver}}
+    {% for i in msgs %}
+        {{i}}
+    {%endfor%}
+    <form id='form' method='POST'> 
+    <input type="text" id = "msg"/>
+    <input type='submit' class='btn btn-primary'/>
+    </form>
+    <script>   
+    var loc = window.location;
+    var formdata = $("#form");
+    var msgfield = $("#msg");
+    var wsstart = 'ws://';
+    if(loc.protocol == 'https:')
+        wsstart = 'wss://';
+    var endpoint = wsstart +window.location.host + window.location.pathname ;
+    var socket = new WebSocket(endpoint);
+    socket.onmessage = (e)=>{
+        console.log("message" , e);
+    }
+    socket.onopen= (e)=>{
+        console.log("message" , e);
+        formdata.submit(function(event){
+            event.preventDefault();
+            var msg = msgfield.val();
+            socket.send(msg)
+        })
+    }
+    socket.onerror= (e)=>{
+        console.log("message" , e);
+    }
+    socket.onclose= (e)=>{
+        console.log("message" , e);
+    }
+
+
+    </script>
+</html>
