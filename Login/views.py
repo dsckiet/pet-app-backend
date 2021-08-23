@@ -1,6 +1,115 @@
+from django.db.models.expressions import F
 from django.http.response import JsonResponse
 from django.shortcuts import render
+import json
+from django.contrib.auth.models import User
+from Owner.models import UserInfo , PetInfo
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login , logout 
+from django.core.files.storage import FileSystemStorage
 
 def fun(request):
     return JsonResponse("yes" , safe = False)
-# Create your views here.
+
+def upload(request , pet_id):
+    # print(request.FILES)
+    res = {}
+    if request.FILES:
+        files = request.FILES
+        for f in files:
+            fs = FileSystemStorage()
+            filename = fs.save(files[f].name , files[f])
+            url = fs.url('/pet/' + str(pet_id) + '/'+ filename)
+            # print(url)#/projectmedia/pet/7/yes_f1nqIJl.png
+            PetInfo.objects.filter(id = pet_id ).update(profile_pet =  url)
+            pet = PetInfo.objects.filter(id = pet_id).values('owner_id')
+            print(pet)
+            res['msg'] = "file upload success"
+            return JsonResponse(res , safe=False , status = 200)
+
+    res['msg'] = "file upload failed"
+    return JsonResponse(res , safe=False , status = 400)
+
+def register(request):
+    if request.method == 'POST':
+        res = {}
+        data = json.loads(request.body)
+        username = data['username']
+        name = data['name']
+        email = data['email'] 
+        password = data['password']
+        user = UserInfo.objects.create(
+            username = username,
+            name = name,
+            email = email,
+            password=password
+        )
+        user = User.objects.create_user(username = username  , email = email , password = password)
+        user.save()
+        res['user'] = list(UserInfo.objects.filter(username = username).values())
+        pet_name = data['pet_name']
+        gender = data['gender']
+        breed = data['breed']
+        description = data['description']
+        category = data['category']
+        profile_pic = ""
+        pet = PetInfo.objects.create(
+            name = pet_name,
+            gender = gender,
+            breed = breed,
+            description = description,
+            category = category,
+            profile_pet = profile_pic,
+            owner_id = user.id
+        )
+        res['msg'] = "registration success"
+        res['pet'] = pet.id
+        return JsonResponse(res , safe=False , status = 200)
+
+def my_login(request):
+    res = {}
+    if request.method == 'POST':
+        # print(request.META)
+        if 'HTTP_AUTHORIZATION' in request.META:
+            data = json.loads(request.body)
+            username = data['username']
+            password = data['password']
+            user = UserInfo.objects.filter(username = username).exists()
+            if user:
+                user = authenticate(username=username, password=password)
+                if user is not None:
+                    if user.is_active:
+                        login(request, user)
+                        owner = UserInfo.objects.get(username = username)
+                        request.session['user_id'] =  owner.id
+                        request.session['user_name'] = owner.username
+                    else:
+                        res['msg'] = "not an active user"
+                        return JsonResponse(res , safe= False , status = 401)
+                else:
+                    res['msg'] = "Wrong Credentials!"
+                    return JsonResponse(res , safe=False , status = 401)
+            else:
+                res['msg'] = "user does not exists unauthorized!"
+                return JsonResponse(res , safe=False , status = 400)
+            res['msg'] = "login success"
+            res['sessionid'] = request.session.session_key
+            return JsonResponse(res , safe=False , status = 200)
+        else:
+            res['msg'] = "Bad request"
+            return JsonResponse(res , safe= False , status = 400)
+    else:
+        res['msg'] = "Bad Request"
+        return JsonResponse(res , safe= False , status = 401)
+
+@login_required
+def my_logout(request):
+    print(request.user)
+    if('HTTP_COOKIE' in request.META):
+        logout(request)
+        # It is important to note that calling logout() function doesn’t throw any errors if the user is not logged in.
+        return JsonResponse("logout success", safe=False)
+    else:
+        return JsonResponse("return to signup page/ unauthorized" , safe=False , status = 401)
+
+

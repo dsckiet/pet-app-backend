@@ -1,3 +1,4 @@
 PetApp/__pycache__ 
 .env
 PetApp/settings.py
+media/
