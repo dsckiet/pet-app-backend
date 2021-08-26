@@ -180,13 +180,13 @@ SOCIALACCOUNT_PROVIDERS = {
         'VERSION': 'v7.0',
     }
 }
-GOOGLE_OAUTH_CLIENT_ID="223548394300-487n9kccnsidb4h7b4g3ci77k9o9hb5d.apps.googleusercontent.com"
-GOOGLE_OAUTH_SECRET_KEY = "IR9smZnbvx2cPWFcFB4fa7sY"
+# GOOGLE_OAUTH_CLIENT_ID=
+# GOOGLE_OAUTH_SECRET_KEY = 
 # http://127.0.0.1:8000/login/accounts/google/login/
 # http://127.0.0.1:8000/accounts/profile/#
 
-FACEBOOK_AUTH_APP_ID = "868303554108755"
-FACEBOOK_AUTH_SECRET_KEY = "0a8d9dba421ea489c051f28f47b478fd"
+# FACEBOOK_AUTH_APP_ID =
+# FACEBOOK_AUTH_SECRET_KEY = 
 # https://developers.facebook.com/apps/
 # http://127.0.0.1:8000/accounts/profile/#
 
