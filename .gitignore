@@ -1,6 +1,6 @@
 __pycache__* 
 .env
-PetApp/settings.py
+# PetApp/settings.py
 media/
 pet.json
 breed.json
