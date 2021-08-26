@@ -118,7 +118,7 @@ def my_login(request):
                 res['msg'] = "user does not exists unauthorized!"
                 return JsonResponse(res , safe=False , status = 401)
             res['msg'] = "login success"
-            res['sessionid'] = request.session.session_key
+            # res['sessionid'] = request.session.session_key
             return JsonResponse(res , safe=False , status = 200)
         else:
             res['msg'] = "Bad request"
@@ -130,11 +130,14 @@ def my_login(request):
 @login_required
 def my_logout(request):
     # print(request.user)
+    res = {}
     if('HTTP_COOKIE' in request.META):
         logout(request)
         # It is important to note that calling logout() function doesn’t throw any errors if the user is not logged in.
-        return JsonResponse("logout success", safe=False)
+        res['msg'] = "logout success"
+        return JsonResponse(res, safe=False)
     else:
-        return JsonResponse("return to signup page/ unauthorized" , safe=False , status = 401)
+        res['msg'] = "return to signup page/ unauthorized" 
+        return JsonResponse(res, safe=False , status = 401)
 
 
