@@ -35,8 +35,9 @@ def upload(request , pet_id):
             if allowed_file(files[f].name):
                 upload_result = cloudinary.uploader.upload(files[f])    
                 url = upload_result['url']
-                PetInfo.objects.filter(id = pet_id ).update(profile_pet =  url)
-                pet = PetInfo.objects.filter(id = pet_id).values('owner_id')
+                # print(PetInfo.objects.all().values())
+                PetInfo.objects.filter(id=int(pet_id)).update(profile_pet =  url)
+                pet = PetInfo.objects.filter(id =int(pet_id)).values('owner_id')
                 # print(pet)
                 res['msg'] = "file upload success"
                 return JsonResponse(res , safe=False , status = 200)
@@ -88,8 +89,8 @@ def register(request):
             owner_id = user.id
         )
         res['msg'] = "registration success"
-        res['pet'] = pet.id
-        print(res)
+        res['pet'] = str(pet.id)
+        # print(res)
         return JsonResponse(res , safe=False , status = 200)
 
 def my_login(request):
