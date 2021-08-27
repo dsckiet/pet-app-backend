@@ -71,7 +71,7 @@ def register(request):
         )
         user = User.objects.create_user(username = username  , email = email , password = password)
         user.save()
-        res['user'] = list(UserInfo.objects.filter(username = username).values())
+        res['user'] = list(UserInfo.objects.filter(username = username).values('id' , 'username' , 'password' , 'email'))
         pet_name = data['pet_name']
         gender = data['gender']
         breed = data['breed']
