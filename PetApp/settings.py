@@ -100,7 +100,7 @@ DATABASES = {
         "CLIENT": {
            "name": "PetApp",
            "host": os.environ.get("atlas_uri"),
-           'port': int(os.environ.get('port')),
+           'port': os.environ.get('port'),
            "username": os.environ.get("atlas_username"),
            "password":  os.environ.get("atlas_pass"),
         #    'authSource': os.environ.get('authSource'),
