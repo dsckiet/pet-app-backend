@@ -89,6 +89,7 @@ def register(request):
         )
         res['msg'] = "registration success"
         res['pet'] = pet.id
+        print(res)
         return JsonResponse(res , safe=False , status = 200)
 
 def my_login(request):
