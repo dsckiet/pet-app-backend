@@ -82,17 +82,30 @@ WSGI_APPLICATION = 'PetApp.wsgi.application'
 #     }
 # }
 DATABASES = {
+    ###for local db ###
+    # 'default': {
+    #     'ENGINE': 'djongo',
+    #     'NAME': 'PetApp',
+    #     'CLIENT': {
+    #         'host':os.environ.get('host'),
+    #         'port': int(os.environ.get('port')),
+    #         'username': os.environ.get('username'),
+    #         'password': os.environ.get('password'),
+    #         'authSource': os.environ.get('authSource'),
+    #         'authMechanism': 'SCRAM-SHA-1'
+    #         },
+    # }
     'default': {
         'ENGINE': 'djongo',
-        'NAME': 'PetApp',
-        'CLIENT': {
-            'host':os.environ.get('host'),
-            'port': int(os.environ.get('port')),
-            'username': os.environ.get('username'),
-            'password': os.environ.get('password'),
-            'authSource': os.environ.get('authSource'),
-            'authMechanism': 'SCRAM-SHA-1'
-            },
+        "CLIENT": {
+           "name": "PetApp",
+           "host": os.environ.get("atlas_uri"),
+           'port': int(os.environ.get('port')),
+           "username": os.environ.get("atlas_username"),
+           "password":  os.environ.get("atlas_pass"),
+        #    'authSource': os.environ.get('authSource'),
+           "authMechanism": "SCRAM-SHA-1",
+        }, 
     }
 }
 
