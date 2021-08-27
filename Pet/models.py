@@ -12,10 +12,10 @@ class PetInfo(models.Model):
     identifier = models.TextField()
     owner = models.ForeignKey(UserInfo, on_delete=models.CASCADE)
     
-class CategoryInfo(models.Model):
+class Category(models.Model):
     category = models.CharField(max_length=200, default="NULL")
 
-class BreedInfo(models.Model):
+class Breed(models.Model):
     breed = models.CharField(max_length=200, default="NULL" )
-    category = models.ForeignKey(UserInfo, on_delete=models.CASCADE)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
 # Create your models here.
