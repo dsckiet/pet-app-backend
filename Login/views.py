@@ -56,8 +56,8 @@ def upload(request , pet_id):
     return JsonResponse(res , safe=False , status = 400)
 
 def register(request):
+    res = {}
     if request.method == 'POST':
-        res = {}
         data = json.loads(request.body)
         username = data['username']
         name = data['name']
@@ -93,6 +93,9 @@ def register(request):
         res['pet'] = identifier
         # print(res)
         return JsonResponse(res , safe=False , status = 200)
+    else:
+        res['msg'] = "method not allowed"
+        return JsonResponse(res ,safe = False ,  status = 405 )
 
 def my_login(request):
     res = {}
