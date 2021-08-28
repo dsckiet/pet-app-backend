@@ -5,7 +5,7 @@ import json
 from django.contrib.auth.models import User
 from Owner.models import UserInfo 
 from Pet.models import PetInfo
-from django.contrib.auth.decorators import login_required
+# from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login , logout 
 from django.core.files.storage import FileSystemStorage
 import os
@@ -137,13 +137,12 @@ def my_login(request):
         res['msg'] = "Bad Request"
         return JsonResponse(res , safe= False , status = 401)
 
-@login_required
+# @login_required
 def my_logout(request):
     # print(request.user)
     res = {}
     if('HTTP_COOKIE' in request.META):
         logout(request)
-        # It is important to note that calling logout() function doesn’t throw any errors if the user is not logged in.
         res['msg'] = "logout success"
         return JsonResponse(res, safe=False)
     else:
