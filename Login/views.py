@@ -63,6 +63,10 @@ def register(request):
         name = data['name']
         email = data['email'] 
         password = data['password']
+        owner = UserInfo.objects.filter(username = username).exists()
+        if owner:
+            res['msg'] = 'User already exists!'
+            return JsonResponse(res ,safe=False, status = 400)
         user = UserInfo.objects.create(
             username = username,
             name = name,
