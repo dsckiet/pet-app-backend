@@ -5,7 +5,7 @@ import json
 from django.contrib.auth.models import User
 from Owner.models import UserInfo 
 from Pet.models import PetInfo
-# from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login , logout 
 from django.core.files.storage import FileSystemStorage
 import os
@@ -137,7 +137,7 @@ def my_login(request):
         res['msg'] = "Bad Request"
         return JsonResponse(res , safe= False , status = 401)
 
-# @login_required
+@login_required
 def my_logout(request):
     # print(request.user)
     res = {}
