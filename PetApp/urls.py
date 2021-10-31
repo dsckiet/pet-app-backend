@@ -5,6 +5,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('login/', include('Login.urls')),
     path('chat/', include('Chat.urls')),
+    path('pet/', include('Pet.urls')),
+
 
     # path('accounts/', include('Login.urls')),
 
